@@ -18,7 +18,7 @@ public class Assembler {
             return;
         for(int i = 0; i < tokens.length; i++) {
             // If it's just a method head, no need to do anything
-            if(tokens[i][0].endsWith(":\\s+")) {
+            if(tokens[i][0].endsWith(":\\s+") || tokens[i][0].equals("")) {
                 continue;
             }
 
