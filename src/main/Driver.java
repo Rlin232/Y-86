@@ -9,16 +9,13 @@ import java.util.stream.Stream;
 
 public class Driver {
     public static void main(String[] args) {
-        Path path = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/input/in.txt");
+        Path pathIn = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/input/in.txt"); // Input file
+        Path pathOut = Paths.get(""); // Output file
 
-        String[][] tokens = tokenize(path);
+        String[][] tokens = tokenize(pathIn);
 
-        for(int j = 0; j < tokens.length; j++) {
-            for(int k = 0; k < tokens[j].length; k++) {
-                System.out.print(tokens[j][k] + " ");
-            }
-            System.out.println();
-        }
+        Assembler assembler = new Assembler(tokens, pathOut);
+        assembler.assemble();
     }
 
     public static String[][] tokenize(Path path) {
@@ -42,7 +39,9 @@ public class Driver {
             s = s.trim();
 
             // Tokenize
-            tokens[i.getAndIncrement()] = s.split("\\s+");
+            tokens[i.getAndIncrement()] = s.split("\\s+"); 
+            
+            // Question: Will we ever have >2 tokens? wouldn't it just be command and then arg?
         }; 
         streamSupplier.get().forEach(consumer);
 
