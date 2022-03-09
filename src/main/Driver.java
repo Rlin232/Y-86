@@ -39,9 +39,7 @@ public class Driver {
             s = s.trim();
 
             // Tokenize
-            tokens[i.getAndIncrement()] = s.split("\\s+"); 
-            
-            // Question: Will we ever have >2 tokens? wouldn't it just be command and then arg?
+            tokens[i.getAndIncrement()] = s.split("\\s+", 2); 
         }; 
         streamSupplier.get().forEach(consumer);
 
