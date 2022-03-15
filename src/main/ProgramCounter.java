@@ -81,7 +81,7 @@ public class ProgramCounter {
                         break;
                 }
             } else if(instruction.trim().endsWith(":")) {
-                headerLocations.put(instruction.trim().split(":")[0], Integer.decode(Integer.toHexString(addresses[i])));
+                headerLocations.put(instruction.trim().split(":")[0], Integer.decode("0x" + Integer.toHexString(addresses[i])));
             }
         }
     }
@@ -90,6 +90,6 @@ public class ProgramCounter {
         return addresses[i + 1];
     }
     public int getAddress(String key) {
-        return headerLocations.get("key");
+        return headerLocations.get(key);
     }
 }

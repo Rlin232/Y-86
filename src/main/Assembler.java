@@ -116,8 +116,8 @@ public class Assembler {
                     memory.write(simpleTwoArg.get(tokens[i][0]));
                 }
                 memory.write(Utilities.merge(
-                    registers.get(arguments[0]),
-                    registers.get(arguments[1])
+                    registers.get(arguments[0].trim()),
+                    registers.get(arguments[1].trim())
                 ));
             }
 
@@ -134,7 +134,7 @@ public class Assembler {
             if(tokens[i][0].equals("irmovq")) {
                 // Still have to write down the stack stuff, but for now just writing down register and corr instruction mapping
                 memory.write(0x30);
-                memory.write(Utilities.merge(0xf, registers.get(arguments[1])));
+                memory.write(Utilities.merge(0xf, registers.get(arguments[1].trim())));
             }
             if(tokens[i][0].equals("rmmovq")) {
                 memory.write(0x20);

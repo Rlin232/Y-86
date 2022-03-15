@@ -9,13 +9,14 @@ import java.util.stream.Stream;
 
 public class Driver {
     public static void main(String[] args) throws CommandException, IOException {
-        Path pathIn = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/input/in.txt"); // Input file
+        Path pathIn = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/input/insimple.txt"); // Input file
         Path pathOut = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/output/out.txt"); // Output file
 
         String[][] tokens = tokenize(pathIn);
 
         Assembler assembler = new Assembler(tokens, pathOut);
         assembler.assemble();
+        System.out.println("Complete");
     }
 
     public static String[][] tokenize(Path path) {
