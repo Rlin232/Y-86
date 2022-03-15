@@ -12,7 +12,7 @@ array:
     .quad 0x0b000b000b00
     .quad 0xa000a000a000
 
-.main
+main:
     irmovq array, %rdi
     irmovq $4, %rsi
     call sum                # sum(array, 4)
@@ -30,7 +30,7 @@ loop:
     mrmovq (%rdi), %rbx     # Get *start
     addq %rbx, %rax         # Add to sum
     addq %rcx, %rdi         # start ++
-    subq %rdx, %rsi         count --. Set CC
+    subq %rdx, %rsi         # count --. Set CC
 test:
     jne loop                # Stop when 0
     ret                     # Return
