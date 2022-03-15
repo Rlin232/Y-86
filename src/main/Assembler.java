@@ -137,7 +137,8 @@ public class Assembler {
                 memory.write(Utilities.merge(0xf, registers.get(arguments[1])));
             }
             if(tokens[i][0].equals("rmmovq")) {
-                // No clue atm
+                memory.write(0x20);
+                memory.write(Utilities.merge(registers.get(arguments[0]), registers.get(arguments[1])));
             }
             if(tokens[i][0].equals("mrmovq")) {
                 // No clue atm
