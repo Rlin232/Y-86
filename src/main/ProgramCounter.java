@@ -89,4 +89,7 @@ public class ProgramCounter {
     public int getAddress(int i) {
         return addresses[i + 1];
     }
+    public int getAddress(String key) {
+        return headerLocations.get("key");
+    }
 }

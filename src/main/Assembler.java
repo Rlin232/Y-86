@@ -147,6 +147,8 @@ public class Assembler {
             if(tokens[i][0].equals("call")) {
                 // No clue atm
                 memory.write(0x80);
+                memory.write(programCounter.getAddress(tokens[i][1]));
+                memory.seek(5);
             }
 
             // Directives
