@@ -78,9 +78,28 @@ public class Assembler {
             if(tokens[i].length > 1) {
                 arguments = tokens[i][1].split(",");
                 for(int j = 0; j < arguments.length; j++) {
-                    arguments[j] = arguments[j].trim();
+                    String arg = arguments[j].trim();
+                    if(arg.charAt(0) == '%') {
+                        registers.get(tokens[i][1]);
+                    }
+                    else if(arg.charAt(0) == '$') {
+                        
+                    }
+                    else if(programCounter.getAddress(arg)) {
+                       
+                    }
+                    else {
+                        throw new CommandException("Argument has no address", null);
+                    }
                 }
+
             }
+            //make argument an integer array then extract just the address - store in a local variable
+            //1. try to get it from the register - check if start with %
+            //2. try to get it from PC
+            //3. probably a constant, if not with $
+            //not valid
+
             
             // If it's just a method head, no need to do anything
             if(tokens[i][0].trim().endsWith(":") || tokens[i][0].equals("")) {
