@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Driver {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CommandException {
         Path pathIn = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/input/in.txt"); // Input file
         Path pathOut = Paths.get(""); // Output file
 
@@ -16,7 +16,6 @@ public class Driver {
 
         Assembler assembler = new Assembler(tokens, pathOut);
         assembler.assemble();
-        System.out.println(Utilities.toHex(100));
     }
 
     public static String[][] tokenize(Path path) {
