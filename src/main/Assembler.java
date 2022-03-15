@@ -149,7 +149,6 @@ public class Assembler {
                 // No clue atm
                 memory.write(0x80);
                 memory.write(programCounter.getAddress(tokens[i][1]));
-                memory.seek(5);
             }
 
             // Directives
@@ -173,7 +172,7 @@ public class Assembler {
         
             // Padding
             if(!tokens[i][0].startsWith("."))
-                this.memory.seek(startIndex + 16);
+                this.memory.seek(startIndex + ProgramCounter.offsets.get(tokens[i][0]));
         }
         this.writeOutput();
     }
