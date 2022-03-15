@@ -16,6 +16,7 @@ public class Driver {
 
         Assembler assembler = new Assembler(tokens, pathOut);
         assembler.assemble();
+        System.out.println(Utilities.toHex(100));
     }
 
     public static String[][] tokenize(Path path) {

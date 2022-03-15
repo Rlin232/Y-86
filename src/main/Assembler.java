@@ -3,16 +3,19 @@ package src.main;
 import java.nio.file.Path;
 
 public class Assembler {
+    Memory memory;
     String[][] tokens;
+    
     Path pathout;
 
     public Assembler(String[][] tokens, Path pathout) {
+        this.memory = new Memory();
         this.tokens = tokens;
+
         this.pathout = pathout;
     }
 
     public void assemble() {
-        int currentPos = 0x000;
         
         if(this.tokens == null)
             return;
