@@ -136,12 +136,15 @@ public class Assembler {
                 memory.write(0x30);
                 memory.write(Utilities.merge(0xf, registers.get(arguments[1].trim())));
             }
+            //register --> memory
             if(tokens[i][0].equals("rmmovq")) {
-                memory.write(0x20);
-                memory.write(Utilities.merge(registers.get(arguments[0]), registers.get(arguments[1])));
+                memory.write(0x40);
+                memory.write(Utilities.merge(registers.get(arguments[0]), memory.seek(registers.get(arguments[1]))));
             }
+            //memory --> register
             if(tokens[i][0].equals("mrmovq")) {
-                // No clue atm
+                memory.write(0x50);
+                memory.write(Utilities.merge(memory.seek(registers.get(arguments[1])), registers.get(arguments[0])));
             }
 
             // Calls
