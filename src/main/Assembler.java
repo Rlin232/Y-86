@@ -127,7 +127,7 @@ public class Assembler {
                 this.memory.write(Utilities.merge(
                     0x7, conditionals.get(condition)
                 ));
-                // TODO figure out the stack thing
+                memory.write(programCounter.getAddress(tokens[i][1]));
             }
 
             // Moves
