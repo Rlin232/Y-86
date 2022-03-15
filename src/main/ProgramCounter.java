@@ -67,7 +67,7 @@ public class ProgramCounter {
     public void parse() {
         for(int i = 0; i < tokens.length; i++) {
             String instruction = tokens[i][0];
-            if(offsets.get(instruction) != null) {
+            if(offsets.containsKey(instruction)) {
                 increment(i + 1, offsets.get(instruction));
             } else if(instruction.startsWith(".")) {
                 switch(instruction) {
@@ -93,5 +93,8 @@ public class ProgramCounter {
     }
     public int getAddress(String key) {
         return headerLocations.get(key);
+    }
+    public boolean containsKey(String key) {
+        return headerLocations.containsKey(key);
     }
 }

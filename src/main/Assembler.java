@@ -74,32 +74,30 @@ public class Assembler {
         for(int i = 0; i < tokens.length; i++) {
             int startIndex = this.memory.index;
             //Separating the arguments (if any)
-            String[] arguments = {};
+            int[] arguments = {};
             if(tokens[i].length > 1) {
-                arguments = tokens[i][1].split(",");
-                for(int j = 0; j < arguments.length; j++) {
-                    String arg = arguments[j].trim();
+                String[] parameters = tokens[i][1].split(",");
+                arguments = new int[parameters.length];
+                for(int j = 0; j < parameters.length; j++) {
+                    String arg = parameters[j].trim();
                     if(arg.charAt(0) == '%') {
-                        registers.get(tokens[i][1]);
-                    }
-                    else if(arg.charAt(0) == '$') {
-                        
-                    }
-                    else if(programCounter.getAddress(arg)) {
-                       
-                    }
-                    else {
-                        throw new CommandException("Argument has no address", null);
+                        arguments[i] = registers.get(parameters[i]);
+                    } else if(programCounter.containsKey(arg)) {
+                        arguments[i] = programCounter.getAddress(parameters[i]);
+                    } else if(arg.charAt(0) == '$') {
+                        arguments[i] = Integer.parseInt(arg.split("$")[1]);
+                    } else {
+                        throw new CommandException("Argument has no associated address", null);
                     }
                 }
 
             }
+
             //make argument an integer array then extract just the address - store in a local variable
             //1. try to get it from the register - check if start with %
             //2. try to get it from PC
             //3. probably a constant, if not with $
             //not valid
-
             
             // If it's just a method head, no need to do anything
             if(tokens[i][0].trim().endsWith(":") || tokens[i][0].equals("")) {
@@ -111,12 +109,12 @@ public class Assembler {
                 throw new CommandException("Command not found", null);
 
             // Just write basic commands
-            if(basic.get(tokens[i][0]) != null) {
+            if(basic.containsKey(tokens[i][0])) {
                 memory.write(basic.get(tokens[i][0]));
             }
 
             // One-arg commands
-            if(oneArg.get(tokens[i][0]) != null) {
+            if(oneArg.containsKey(tokens[i][0])) {
                 memory.write(oneArg.get(tokens[i][0]));
                 memory.write(Utilities.merge(
                     registers.get(tokens[i][1]), 0xf
@@ -135,8 +133,8 @@ public class Assembler {
                     memory.write(simpleTwoArg.get(tokens[i][0]));
                 }
                 memory.write(Utilities.merge(
-                    registers.get(arguments[0].trim()),
-                    registers.get(arguments[1].trim())
+                    arguments[0],
+                    arguments[1]
                 ));
             }
 
@@ -151,24 +149,23 @@ public class Assembler {
 
             // Moves
             if(tokens[i][0].equals("irmovq")) {
-                // Still have to write down the stack stuff, but for now just writing down register and corr instruction mapping
                 memory.write(0x30);
-                memory.write(Utilities.merge(0xf, registers.get(arguments[1].trim())));
+                memory.write(Utilities.merge(0xf, arguments[1]));
+                memory.write(arguments[0]);
             }
             //register --> memory
             if(tokens[i][0].equals("rmmovq")) {
                 memory.write(0x40);
-                memory.write(Utilities.merge(registers.get(arguments[0]), registers.get(arguments[1])));
+                memory.write(Utilities.merge(arguments[0], arguments[1]));
             }
             //memory --> register
             if(tokens[i][0].equals("mrmovq")) {
                 memory.write(0x50);
-                memory.write(Utilities.merge(registers.get(arguments[1]), registers.get(arguments[0])));
+                memory.write(Utilities.merge(arguments[1], arguments[0]));
             }
 
             // Calls
             if(tokens[i][0].equals("call")) {
-                // No clue atm
                 memory.write(0x80);
                 memory.write(programCounter.getAddress(tokens[i][1]));
             }
