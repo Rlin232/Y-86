@@ -77,8 +77,8 @@ public class Assembler {
             String[] arguments = {};
             if(tokens[i].length > 1) {
                 arguments = tokens[i][1].split(",");
-                for(String argument : arguments) {
-                    argument = argument.trim();
+                for(int j = 0; j < arguments.length; j++) {
+                    arguments[j] = arguments[j].trim();
                 }
             }
             
@@ -138,7 +138,7 @@ public class Assembler {
             }
             if(tokens[i][0].equals("rmmovq")) {
                 memory.write(0x20);
-                memory.write(Utilities.merge(registers.get(arguments[0]), registers.get(arguments[1])));
+                memory.write(Utilities.merge(registers.get(arguments[0]), registers.get(arguments[1].trim())));
             }
             if(tokens[i][0].equals("mrmovq")) {
                 // No clue atm
