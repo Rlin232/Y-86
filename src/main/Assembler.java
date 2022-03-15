@@ -71,8 +71,12 @@ public class Assembler {
             int startIndex = this.memory.index;
             //Separating the arguments (if any)
             String[] arguments = {};
-            if(tokens[i].length > 1) 
-                arguments = tokens[i][1].split(", ");
+            if(tokens[i].length > 1) {
+                arguments = tokens[i][1].split(",");
+                for(String argument : arguments) {
+                    argument = argument.trim();
+                }
+            }
             
             // If it's just a method head, no need to do anything
             if(tokens[i][0].trim().endsWith(":") || tokens[i][0].equals("")) {
@@ -138,6 +142,7 @@ public class Assembler {
             // Calls
             if(tokens[i][0].equals("call")) {
                 // No clue atm
+                memory.write(0x80);
             }
 
             // Directives
