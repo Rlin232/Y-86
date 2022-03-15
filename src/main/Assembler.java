@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Assembler {
     Memory memory;
+    ProgramCounter programCounter;
     String[][] tokens;
     
     Path pathout;
@@ -14,9 +15,12 @@ public class Assembler {
 
     public Assembler(String[][] tokens, Path pathout) {
         this.memory = new Memory();
+        this.programCounter = new ProgramCounter(tokens);
         this.tokens = tokens;
 
         this.pathout = pathout;
+
+        this.programCounter.parse();
     }
 
     public void assemble() throws CommandException, IOException {
