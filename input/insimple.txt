@@ -1,0 +1,7 @@
+    .pos 0
+init:   
+    irmovq stack,%rsp
+    halt
+
+    .pos 0x100
+stack:
