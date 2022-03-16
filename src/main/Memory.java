@@ -24,10 +24,25 @@ public class Memory {
         this.index++;
     }
 
+    public void writeLong(long entry) {
+        long temp = entry;
+
+        ArrayList<Integer> digits = new ArrayList<Integer>();
+
+        while(temp > 0){
+            digits.add(0, (int) temp % 256);
+            temp /= 256;
+        }
+        write(0);
+        for(Integer digit : digits) {
+            write(digit);
+        }
+    }
+
     public String toString() {
         String output = "";
         for(Integer e : bytes) {
-            output += Utilities.toHex(e) + " ";
+            output += Utilities.toHex(e);
         }
         return output;
     }

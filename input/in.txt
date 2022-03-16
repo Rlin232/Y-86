@@ -7,10 +7,10 @@
 # Array of 4 elements
     .align 8
 array:
-    .quad 0x000d000d000d
-    .quad 0x00c000c000c0
-    .quad 0x0b000b000b00
-    .quad 0xa000a000a000
+    .long 0x000d000d
+    .long 0x00c000c0
+    .long 0x0b000b00
+    .long 0xa000a000
 
 main:
     irmovq array, %rdi

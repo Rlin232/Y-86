@@ -75,17 +75,21 @@ public class Assembler {
             int startIndex = this.memory.index;
             //Separating the arguments (if any)
             int[] arguments = {};
-            if(tokens[i].length > 1) {
+            if(tokens[i].length > 1 && !tokens[i][0].startsWith(".")) {
                 String[] parameters = tokens[i][1].split(",");
                 arguments = new int[parameters.length];
                 for(int j = 0; j < parameters.length; j++) {
                     String arg = parameters[j].trim();
-                    if(arg.charAt(0) == '%') {
-                        arguments[i] = registers.get(parameters[i]);
+                    if(arg.charAt(0) == '%' || arg.charAt(0) == '(') {
+                        if(arg.charAt(0) == '(') {
+                            arguments[j] = registers.get(arg.substring(1, arg.length() - 1));
+                        } else {
+                            arguments[j] = registers.get(arg);
+                        }
                     } else if(programCounter.containsKey(arg)) {
-                        arguments[i] = programCounter.getAddress(parameters[i]);
+                        arguments[j] = programCounter.getAddress(arg);
                     } else if(arg.charAt(0) == '$') {
-                        arguments[i] = Integer.parseInt(arg.split("$")[1]);
+                        arguments[j] = Integer.parseInt(arg.substring(1));
                     } else {
                         throw new CommandException("Argument has no associated address", null);
                     }
@@ -151,7 +155,7 @@ public class Assembler {
             if(tokens[i][0].equals("irmovq")) {
                 memory.write(0x30);
                 memory.write(Utilities.merge(0xf, arguments[1]));
-                memory.write(arguments[0]);
+                memory.writeLong(arguments[0]);
             }
             //register --> memory
             if(tokens[i][0].equals("rmmovq")) {
@@ -180,10 +184,12 @@ public class Assembler {
                         this.alignment = Integer.decode(tokens[i][1]);
                         break;
                     case ".long":
+                        long n = Long.decode(tokens[i][1]);
+                        this.memory.writeLong(n);
+                        break;
                     case ".quad":
-                        int n = Integer.parseInt(tokens[i][1]);
-                        this.memory.write(n); // Might need to be reformatted to a long idk
-                        this.memory.seek(this.memory.index + (this.alignment - 8));
+                        n = Long.decode(tokens[i][1]);
+                        this.memory.writeLong(n);
                         break;
                 }
                 continue;

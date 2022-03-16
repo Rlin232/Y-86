@@ -79,6 +79,9 @@ public class ProgramCounter {
                         this.increment(i + 1, Integer.decode(Integer.toHexString(remainder)));
                         break;
                     case ".quad":
+                        this.increment(i + 1, 0x8);
+                        break;
+                    case ".long":
                         this.increment(i + 1, 0x4);
                         break;
                 }
