@@ -33,7 +33,6 @@ public class Memory {
             digits.add(0, (int) temp % 256);
             temp /= 256;
         }
-        write(0);
         for(Integer digit : digits) {
             write(digit);
         }

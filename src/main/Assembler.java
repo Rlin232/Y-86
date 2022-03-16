@@ -126,16 +126,15 @@ public class Assembler {
             }
 
             // Two-arg commands
-            if(tokens[i].length == 3) {
-                if(tokens[i][0].startsWith("cmov")) {
-                    String condition = tokens[i][0].substring(4);
-                    memory.write(Utilities.merge(
-                        0x2, 
-                        conditionals.get(condition)
-                    ));
-                } else {
+            if(tokens[i][0].startsWith("cmov")) {
+                String condition = tokens[i][0].substring(4);
+                memory.write(Utilities.merge(
+                    0x2, 
+                    conditionals.get(condition)
+                ));
+            } 
+            if (simpleTwoArg.containsKey(tokens[i][0])) {
                     memory.write(simpleTwoArg.get(tokens[i][0]));
-                }
                 memory.write(Utilities.merge(
                     arguments[0],
                     arguments[1]
