@@ -25,12 +25,12 @@ public class Memory {
     }
 
     public void writeLong(long entry) {
-        long temp = entry;
+        int temp = (int) entry;
 
         ArrayList<Integer> digits = new ArrayList<Integer>();
 
         while(temp > 0){
-            digits.add(0, (int) temp % 256);
+            digits.add(0, temp % 256);
             temp /= 256;
         }
         for(Integer digit : digits) {
