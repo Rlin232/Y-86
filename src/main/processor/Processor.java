@@ -183,7 +183,7 @@ public class Processor {
         return values;
     }
 
-    public long[] execute(long[] input) {
+    public int[] execute() {
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -198,23 +198,22 @@ public class Processor {
         OF = false;
         SF = false;
 
-        switch ((int) icode) {
+        switch((int) icode) {
             case 0: //halt
                 break;
             case 1: //nop
                 break;
             case 2: //rrmovq
-                valA = rA;
+                valE = valB + valC;
                 break;
             case 3: //irmovq
-                //nothing?
+                valE = 0 + valC;
                 break;
             case 4: //rmmovq
-                valA = rA; 
-                valB = rB;
+                valE = valB + valC;
                 break;
             case 5: //mrmovq
-                valB = rB;
+                valE = valB + valC;
                 break;
             case 6: //OPq // valA <- R[rA]
                 long oldVal = valE;
@@ -249,27 +248,25 @@ public class Processor {
                 }
                 
                 break;
-            case 7: //jXX
+            case 7: //jxx
                 break;
             case 8: //call
-                valB = rsp;
+                valE = valB - 8;
                 break;
-            case 9: // ret
-                valA = rsp;
-                valB = rsp;
+            case 9: //return
+                valE = valB + 8;
                 break;
             case 10: //pushq
-                valA = rA;
-                valB = rsp; 
+                valE = valB - 8;
                 break;
             case 11: //popq
-                valA = rsp;
-                valB = rsp; 
+                valE = valB + 8;
                 break;
         }
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
+
     public long[] memory(long[] input) {
         // Update memory
         long icode = input[0];
