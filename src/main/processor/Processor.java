@@ -54,6 +54,7 @@ public class Processor {
     }
     
     public long[] fetch() {
+        System.out.println("fetch in progress");
         int icode = this.readWord();
         int ifun = -1;
         long valC = -1;
@@ -123,12 +124,22 @@ public class Processor {
                 valP = PC + 2;
                 break;
         }
-    
+        System.out.println("icode = "+icode);
+        System.out.println("ifun = "+ifun);
+        System.out.println("valC = "+valC);
+        System.out.println("valP = "+valP);
+        System.out.println("valA = "+valA);
+        System.out.println("valB = "+valB);
+        System.out.println("valE = "+valE);
+        System.out.println("rA = "+rA);
+        System.out.println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
     public long[] decode(long[] input) {
         // reads up to two operands from the register file 
+        System.out.println("decode in progress");
+        
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -179,11 +190,21 @@ public class Processor {
                 valB = rsp; 
                 break;
         }
+        System.out.println("icode = "+icode);
+        System.out.println("ifun = "+ifun);
+        System.out.println("valC = "+valC);
+        System.out.println("valP = "+valP);
+        System.out.println("valA = "+valA);
+        System.out.println("valB = "+valB);
+        System.out.println("valE = "+valE);
+        System.out.println("rA = "+rA);
+        System.out.println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
 
     public long[] execute(long[] input) {
+        System.out.println("execute in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -263,11 +284,22 @@ public class Processor {
                 valE = valB + 8;
                 break;
         }
+        
+        System.out.println("icode = "+icode);
+        System.out.println("ifun = "+ifun);
+        System.out.println("valC = "+valC);
+        System.out.println("valP = "+valP);
+        System.out.println("valA = "+valA);
+        System.out.println("valB = "+valB);
+        System.out.println("valE = "+valE);
+        System.out.println("rA = "+rA);
+        System.out.println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
 
     public long[] memory(long[] input) {
+        System.out.println("memory in progress");
         // Update memory
         long icode = input[0];
         long ifun = input[1];
@@ -314,11 +346,22 @@ public class Processor {
                 valM = this.readEight();
                 break;
         }
-        long[] values = {ifun, valC, valP, valA, valB, valE, valM, rA, rB};
+        System.out.println("icode = "+icode);
+        System.out.println("ifun = "+ifun);
+        System.out.println("valC = "+valC);
+        System.out.println("valP = "+valP);
+        System.out.println("valA = "+valA);
+        System.out.println("valB = "+valB);
+        System.out.println("valE = "+valE);
+        System.out.println("rA = "+rA);
+        System.out.println("rB = "+rB);
+        System.out.println("valM = "+valM);
+        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB, valM};
         return values;
     }
     public void writeback(long[] input) {
         // Update registers
+        System.out.println("writeback in progress");
         long icode = input[0];
         long valE = input[6];
         long rA = input[7];
@@ -359,9 +402,23 @@ public class Processor {
             case 11: //popq
                 break;
         }
+        System.out.println("icode = "+icode);
+        System.out.println("ifun = "+ifun);
+        System.out.println("valC = "+valC);
+        System.out.println("valP = "+valP);
+        System.out.println("valA = "+valA);
+        System.out.println("valB = "+valB);
+        System.out.println("valE = "+valE);
+        System.out.println("rA = "+rA);
+        System.out.println("rB = "+rB);
+        System.out.println("valM = "+valM);
     }
     public void pcUpdate(int valP) {
+        System.out.println("pcUpdate in progress");
         PC = valP;
         index = PC*2;
+        System.out.println("PC = "+PC);
+        System.out.println("index = "+index);
     }
+        
 }
