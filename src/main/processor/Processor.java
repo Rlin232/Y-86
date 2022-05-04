@@ -27,7 +27,7 @@ public class Processor {
             values = execute(values);
             values = memory(values);
             writeback(values);
-            pcUpdate((int) values[2]);
+            pcUpdate(values);
         }
     }
 
@@ -310,10 +310,57 @@ public class Processor {
             case 11: //popq
                 break;
         }
-        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
+        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB, valM};
     }
-    public void pcUpdate(int valP) {
-        PC = valP;
+    public void pcUpdate(long[] input) {
+        long icode = input[0];
+        long ifun = input[1];
+        long valC = input[2];
+        long valP = input[3];
+        long valA = input[4];
+        long valB = input[5];
+        long valE = input[6];
+        long rA = input[7];
+        long rB = input[8];
+        long valM = input[8];
+
+        switch ((int) icode) {
+            case 0: //halt
+                break;
+            case 1: //nop
+                PC ++;
+                break;
+            case 2: //rrmovq
+                PC = (int) valP;
+                break;
+            case 3: //irmovq
+                PC = (int) valP;
+                //nothing?
+                break;
+            case 4: //rmmovq
+                PC = (int) valP;
+                break;
+            case 5: //mrmovq
+                PC = (int) valP;
+                break;
+            case 6: //OPq 
+                PC = (int) valP;
+                break;
+            case 7: //jXX
+                break;
+            case 8: //call
+                PC = (int) valC;
+                break;
+            case 9: // ret
+                PC = (int) valM;
+                break;
+            case 10: //pushq
+                PC = (int) valP;
+                break;
+            case 11: //popq
+                PC = (int) valP;
+                break;
+        }
         index = PC*2;
     }
 }
