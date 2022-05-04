@@ -4,6 +4,8 @@ public class Processor {
     String file;
     String pathOut;
 
+    int[] R = new int[8];
+
     int PC = 0; // Keeps track of which byte we're on
     int index = 0; // Keeps track of which 4-bit word we're on
     int rsp = 128; //not sure if this is the right stack pointer
@@ -224,15 +226,61 @@ public class Processor {
                 valB = rsp; 
                 break;
         }
-        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB};
+        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
     public int memory() {
         // Update memory
         return 0;
     }
-    public void writeback() {
+    public void writeback(long[] input) {
         // Update registers
+        long icode = input[0];
+        long ifun = input[1];
+        long valC = input[2];
+        long valP = input[3];
+        long valA = input[4];
+        long valB = input[5];
+        long valE = input[6];
+        long rA = input[7];
+        long rB = input[8];
+        long valM = input[9];
+
+        switch ((int) icode) {
+            case 0: //halt
+                break;
+            case 1: //nop
+                break;
+            case 2: //rrmovq
+                R[(int) rB] = (int) valE;
+                break;
+            case 3: //irmovq
+                R[(int) rB] = (int) valE;
+                break;
+            case 4: //rmmovq
+                break;
+            case 5: //mrmovq
+                R[(int) rA] = (int) valM;
+                break;
+            case 6: //OPq
+                R[(int) rB] = (int) valE;
+                break;
+            case 7: //jXX
+                break;
+            case 8: //call
+                R[4] = (int) valE;
+                break;
+            case 9: // ret
+                R[4] = (int) valE;
+                break;
+            case 10: //pushq
+                R[4] = (int) valE;
+                R[(int) rA] = (int) valM;
+                break;
+            case 11: //popq
+                break;
+        }
+        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
     }
     public void pcUpdate(int valP) {
         PC = valP;
