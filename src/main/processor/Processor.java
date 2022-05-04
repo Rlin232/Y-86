@@ -198,7 +198,7 @@ public class Processor {
         OF = false;
         SF = false;
 
-        switch(icode) {
+        switch((int) icode) {
             case 0: //halt
                 break;
             case 1: //nop
@@ -259,9 +259,7 @@ public class Processor {
             case 11: //popq
                 valE = valB + 8;
                 break;
-
         }
-
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
