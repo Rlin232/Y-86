@@ -259,7 +259,7 @@ public class Processor {
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
-    public int memory() {
+    public long[] memory(long[] input) {
         // Update memory
         long icode = input[0];
         long ifun = input[1];
