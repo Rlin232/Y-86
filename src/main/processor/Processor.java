@@ -17,16 +17,20 @@ public class Processor {
 
     }
 
+    // Reads next 4-bit word
     public int readWord() {
         int word = Character.getNumericValue(file.charAt(index));
         this.index++;
         return word;
     }
+
+    // Reads next 8 bytes
     public long readEight() {
         String value = file.substring(index, index+8);
         index += 8;
         return Long.parseLong(value);
     }
+    
     public long[] fetch() {
         int ifun = -1;
         long valC = -1;
