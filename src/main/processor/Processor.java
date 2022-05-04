@@ -3,9 +3,15 @@ package src.main.processor;
 public class Processor {
     String file;
     String pathOut;
+
     public Processor(String file, String pathOut) {
         this.file = file;
         this.pathOut = pathOut;
+    }
+
+    public void process() {
+        // Read through string until end, running through each step
+        
     }
     public int[] fetch() {
         return new int[6];
