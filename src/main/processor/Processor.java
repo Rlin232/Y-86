@@ -24,8 +24,8 @@ public class Processor {
         while(index < file.length()) {
             long[] values = fetch();
             values = decode(values);
-            execute(values);
-            memory();
+            values = execute(values);
+            values = memory(values);
             writeback(values);
             pcUpdate((int) values[2]);
         }
@@ -186,6 +186,10 @@ public class Processor {
         long rA = input[7];
         long rB = input[8];
 
+        ZF = false;
+        OF = false;
+        SF = false;
+
         switch ((int) icode) {
             case 0: //halt
                 break;
@@ -205,8 +209,34 @@ public class Processor {
                 valB = rB;
                 break;
             case 6: //OPq // valA <- R[rA]
-                valA = rA; 
-                valB = rB; 
+                long oldVal = valE;
+                try {
+                    switch((int) ifun) {
+                        case 0:
+                            valE = valB + valA;
+                            break;
+                        case 1:
+                            valE = valB - valA;
+                            break;
+                        case 2:
+                            valE = valB & valA;
+                            break;
+                        case 3:
+                            valE = valB ^ valA;
+                            break;
+                    }
+                    if(valE == 0)
+                        ZF = true;
+                    if(oldVal < 0) {
+                        if(valE > 0)
+                            SF = true;
+                    } else {
+                        if(valE < 0)
+                            SF = true;
+                    }
+                } catch(Exception e) {
+                    OF = true;
+                }
                 break;
             case 7: //jXX
                 break;
