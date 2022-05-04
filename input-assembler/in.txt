@@ -5,7 +5,7 @@
     halt                    # Terminate program
 
 # Array of 4 elements
-    .align 8
+    .align 4
 array:
     .long 0x000d000d
     .long 0x00c000c0

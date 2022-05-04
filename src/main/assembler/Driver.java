@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class Driver {
+public class AssemblerDriver {
     public static void main(String[] args) throws CommandException, IOException {
         Path pathIn = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/input/in.txt"); // Input file
         Path pathOut = Paths.get("/Users/admin/Desktop/Ryan/OHS/2021-2022/Computer Systems/Y-86/output/out.txt"); // Output file

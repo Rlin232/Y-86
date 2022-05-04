@@ -134,7 +134,7 @@ public class Assembler {
                 ));
             } 
             if (simpleTwoArg.containsKey(tokens[i][0])) {
-                    memory.write(simpleTwoArg.get(tokens[i][0]));
+                memory.write(simpleTwoArg.get(tokens[i][0]));
                 memory.write(Utilities.merge(
                     arguments[0],
                     arguments[1]
