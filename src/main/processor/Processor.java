@@ -261,7 +261,53 @@ public class Processor {
     }
     public int memory() {
         // Update memory
-        return 0;
+        long icode = input[0];
+        long ifun = input[1];
+        long valC = input[2];
+        long valP = input[3];
+        long valA = input[4];
+        long valB = input[5];
+        long valE = input[6];
+        long rA = input[7];
+        long rB = input[8];
+        long valM = -1;
+
+        switch ((int) icode) {
+            case 0: //halt
+                break;
+            case 1: //nop
+                break;
+            case 2: //rrmovq
+                break;
+            case 3: //irmovq
+                break;
+            case 4: //rmmovq
+                //M8[valE] <- valA
+                this.writeEight(valA);
+                break;
+            case 5: //mrmovq
+                //valM <- M8[valE]
+                valM = this.readEight();
+                break;
+            case 6: //OPq 
+                break;
+            case 7: //jXX
+                break;
+            case 8: //call
+                this.writeEight(valP);
+                break;
+            case 9: // ret
+                valM = this.readEight();
+                break;
+            case 10: //pushq
+                this.writeEight(valA);
+                break;
+            case 11: //popq
+                valM = this.readEight();
+                break;
+        }
+        long[] values = {ifun, valC, valP, valA, valB, valE, valM, rA, rB};
+        return values;
     }
     public void writeback(long[] input) {
         // Update registers
