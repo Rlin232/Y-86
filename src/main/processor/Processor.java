@@ -183,7 +183,7 @@ public class Processor {
         return values;
     }
 
-    public int[] execute() {
+    public long[] execute(long[] input) {
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
