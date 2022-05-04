@@ -8,7 +8,7 @@ public class Processor {
 
     int PC = 0; // Keeps track of which byte we're on
     int index = 0; // Keeps track of which 4-bit word we're on
-    int rsp = 128; //not sure if this is the right stack pointer
+    int rsp = 0;
 
     boolean ZF = false;
     boolean SF = false;
