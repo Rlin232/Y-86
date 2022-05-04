@@ -24,9 +24,9 @@ public class Processor {
         while(index < file.length()) {
             long[] values = fetch();
             values = decode(values);
-            execute();
+            execute(values);
             memory();
-            writeback();
+            writeback(values);
             pcUpdate((int) values[2]);
         }
     }
