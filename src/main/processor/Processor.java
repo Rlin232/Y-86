@@ -8,6 +8,10 @@ public class Processor {
     int index = 0; // Keeps track of which 4-bit word we're on
     int rsp = 128; //not sure if this is the right stack pointer
 
+    boolean ZF = false;
+    boolean SF = false;
+    boolean OF = false;
+
     public Processor(String file, String pathOut) {
         this.file = file;
         this.pathOut = pathOut;
@@ -15,7 +19,14 @@ public class Processor {
 
     public void process() {
         // Read through string until end, running through each step
-
+        while(index < file.length()) {
+            long[] values = fetch();
+            values = decode(values);
+            execute();
+            memory();
+            writeback();
+            pcUpdate((int) values[2]);
+        }
     }
 
     // Reads next 4-bit word
@@ -161,8 +172,58 @@ public class Processor {
         return values;
     }
 
-    public int[] execute() {
-        return new int[2];
+    public long[] execute(long[] input) {
+        long ifun = input[0];
+        long valC = input[1];
+        long valP = input[2];
+        long valA = input[3];
+        long valB = input[4];
+        long valE = input[5];
+        long rA = input[6];
+        long rB = input[7];
+
+        switch ((int) ifun) {
+            case 0: //halt
+                break;
+            case 1: //nop
+                break;
+            case 2: //rrmovq
+                valA = rA;
+                break;
+            case 3: //irmovq
+                //nothing?
+                break;
+            case 4: //rmmovq
+                valA = rA; 
+                valB = rB;
+                break;
+            case 5: //mrmovq
+                valB = rB;
+                break;
+            case 6: //OPq // valA <- R[rA]
+                valA = rA; 
+                valB = rB; 
+                break;
+            case 7: //jXX
+                break;
+            case 8: //call
+                valB = rsp;
+                break;
+            case 9: // ret
+                valA = rsp;
+                valB = rsp;
+                break;
+            case 10: //pushq
+                valA = rA;
+                valB = rsp; 
+                break;
+            case 11: //popq
+                valA = rsp;
+                valB = rsp; 
+                break;
+        }
+        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB};
+        return values;
     }
     public int memory() {
         // Update memory
