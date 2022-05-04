@@ -1,9 +1,11 @@
-package src.main;
+package src.main.assembler;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+
+import src.main.Utilities;
 
 public class Assembler {
     Memory memory;

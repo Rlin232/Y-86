@@ -1,6 +1,8 @@
-package src.main;
+package src.main.assembler;
 
 import java.util.*;
+
+import src.main.Utilities;
 
 public class Memory {
     public int index = 0;
@@ -25,12 +27,12 @@ public class Memory {
     }
 
     public void writeLong(long entry) {
-        int temp = (int) entry;
+        long temp = entry;
 
         ArrayList<Integer> digits = new ArrayList<Integer>();
 
         while(temp > 0){
-            digits.add(0, temp % 256);
+            digits.add(0, (int) temp % 256);
             temp /= 256;
         }
         for(Integer digit : digits) {
