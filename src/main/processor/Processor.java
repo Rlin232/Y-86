@@ -44,6 +44,7 @@ public class Processor {
     }
     
     public long[] fetch() {
+        int icode = this.readWord();
         int ifun = -1;
         long valC = -1;
         int valP = -1;
@@ -52,83 +53,83 @@ public class Processor {
         int valE = -1;
         int rA = -1;
         int rB = -1;
-        int instruction = this.readWord();
         
         // The default operations
         ifun = this.readWord();
         
-        switch (instruction) {
-            case 0:
+        switch (icode) {
+            case 0: //halt
                 break;
-            case 1:
+            case 1: //nop
                 break;
-            case 2:
+            case 2: //rrmovq
                 rA = readWord();
                 rB = readWord();
                 valP = PC + 2;
                 index += 4;
                 break;
-            case 3:
+            case 3: //irmovq
                 rA = readWord();
                 rB = readWord();
                 valC = this.readEight();
                 valP = PC + 10;
                 break;
-            case 4:
+            case 4: //rmmovq
                 rA = readWord();
                 rB = readWord();
                 valC = this.readEight();
                 valP = PC + 10;
                 break;
-            case 5:
+            case 5: //mrmovq
                 rA = readWord();
                 rB = readWord();
                 valC = this.readEight();
                 valP = PC + 10;
                 break;
-            case 6:
+            case 6: //OPq
                 rA = readWord();
                 rB = readWord();
                 valP = PC + 2;
                 break;
-            case 7:
+            case 7: //jXX
                 valC = this.readEight();
                 valP = PC + 9;
                 break;
-            case 8:
+            case 8: //call
                 valC = this.readEight();
                 valP = PC + 9;
                 break;
-            case 9:
+            case 9: //ret
                 valP = PC + 1;
                 break;
-            case 10:
+            case 10: //pushq
                 rA = readWord();
                 rB = readWord();
                 valP = PC + 2;
                 break;
-            case 11:
+            case 11: //popq
                 rA = readWord();
                 rB = readWord();
                 valP = PC + 2;
                 break;
         }
     
-        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB};
+        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
     public long[] decode(long[] input) {
         // reads up to two operands from the register file 
-        long ifun = input[0];
-        long valC = input[1];
-        long valP = input[2];
-        long valA = input[3];
-        long valB = input[4];
-        long valE = input[5];
-        long rA = input[6];
-        long rB = input[7];
+        long icode = input[0];
+        long ifun = input[1];
+        long valC = input[2];
+        long valP = input[3];
+        long valA = input[4];
+        long valB = input[5];
+        long valE = input[6];
+        long rA = input[7];
+        long rB = input[8];
 
-        switch ((int) ifun) {
+        switch ((int) icode) {
             case 0: //halt
                 break;
             case 1: //nop
@@ -168,21 +169,22 @@ public class Processor {
                 valB = rsp; 
                 break;
         }
-        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB};
+        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
 
     public long[] execute(long[] input) {
-        long ifun = input[0];
-        long valC = input[1];
-        long valP = input[2];
-        long valA = input[3];
-        long valB = input[4];
-        long valE = input[5];
-        long rA = input[6];
-        long rB = input[7];
+        long icode = input[0];
+        long ifun = input[1];
+        long valC = input[2];
+        long valP = input[3];
+        long valA = input[4];
+        long valB = input[5];
+        long valE = input[6];
+        long rA = input[7];
+        long rB = input[8];
 
-        switch ((int) ifun) {
+        switch ((int) icode) {
             case 0: //halt
                 break;
             case 1: //nop
