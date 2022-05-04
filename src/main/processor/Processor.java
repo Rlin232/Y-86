@@ -6,6 +6,7 @@ public class Processor {
 
     int PC = 0; // Keeps track of which byte we're on
     int index = 0; // Keeps track of which 4-bit word we're on
+    int rsp = 128; //not sure if this is the right stack pointer
 
     public Processor(String file, String pathOut) {
         this.file = file;
@@ -105,9 +106,61 @@ public class Processor {
         long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
-    public int[] decode() {
-        return new int[3];
+    public long[] decode(long[] input) {
+        // reads up to two operands from the register file 
+        long ifun = input[0];
+        long valC = input[1];
+        long valP = input[2];
+        long valA = input[3];
+        long valB = input[4];
+        long valE = input[5];
+        long rA = input[6];
+        long rB = input[7];
+
+        switch (ifun) {
+            case 0: //halt
+                break;
+            case 1: //nop
+                break;
+            case 2: //rrmovq
+                valA = rA;
+                break;
+            case 3: //irmovq
+                //nothing?
+                break;
+            case 4: //rmmovq
+                valA = rA; 
+                valB = rB;
+                break;
+            case 5: //mrmovq
+                valB = rB;
+                break;
+            case 6: //OPq // valA <- R[rA]
+                valA = rA; 
+                valB = rB; 
+                break;
+            case 7: //jXX
+                break;
+            case 8: //call
+                valB = rsp;
+                break;
+            case 9: // ret
+                valA = rsp;
+                valB = rsp;
+                break;
+            case 10: //pushq
+                valA = rA;
+                valB = rsp; 
+                break;
+            case 11: //popq
+                valA = rsp;
+                valB = rsp; 
+                break;
+        }
+        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB};
+        return values;
     }
+
     public int[] execute() {
         return new int[2];
     }
