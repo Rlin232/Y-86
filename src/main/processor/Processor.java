@@ -218,33 +218,36 @@ public class Processor {
                 break;
             case 6: //OPq // valA <- R[rA]
                 long oldVal = valE;
-                try {
-                    switch((int) ifun) {
-                        case 0:
-                            valE = valB + valA;
-                            break;
-                        case 1:
-                            valE = valB - valA;
-                            break;
-                        case 2:
-                            valE = valB & valA;
-                            break;
-                        case 3:
-                            valE = valB ^ valA;
-                            break;
-                    }
-                    if(valE == 0)
-                        ZF = true;
-                    if(oldVal < 0) {
-                        if(valE > 0)
-                            SF = true;
-                    } else {
-                        if(valE < 0)
-                            SF = true;
-                    }
-                } catch(Exception e) {
-                    OF = true;
+                switch((int) ifun) {
+                    case 0:
+                        valE = valB + valA;
+                        // Check for overflow
+                        if(valB > 0 && valA > 0 && valE < 0) OF = true;
+                        if(valB < 0 && valA < 0 && valE > 0) OF = true;
+                        break;
+                    case 1:
+                        valE = valB - valA;
+                        // Check for overflow
+                        if(valB > 0 && valA < 0 && valE < 0) OF = true;
+                        if(valB < 0 && valA > 0 && valE > 0) OF = true;
+                        break;
+                    case 2:
+                        valE = valB & valA;
+                        break;
+                    case 3:
+                        valE = valB ^ valA;
+                        break;
                 }
+                if(valE == 0)
+                    ZF = true;
+                if(oldVal < 0) {
+                    if(valE > 0)
+                        SF = true;
+                } else {
+                    if(valE < 0)
+                        SF = true;
+                }
+                
                 break;
             case 7: //jXX
                 break;
