@@ -54,6 +54,7 @@ public class Processor {
     }
     
     public long[] fetch() {
+        println("fetch in progress");
         int icode = this.readWord();
         int ifun = -1;
         long valC = -1;
@@ -124,11 +125,21 @@ public class Processor {
                 break;
         }
     
+        println("icode = "+icode);
+        println("ifun = "+ifun);
+        println("valC = "+valC);
+        println("valP = "+valP);
+        println("valA = "+valA);
+        println("valB = "+valB);
+        println("valE = "+valE);
+        println("rA = "+rA);
+        println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
     public long[] decode(long[] input) {
         // reads up to two operands from the register file 
+        println("decode in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -179,11 +190,22 @@ public class Processor {
                 valB = rsp; 
                 break;
         }
+
+        println("icode = "+icode);
+        println("ifun = "+ifun);
+        println("valC = "+valC);
+        println("valP = "+valP);
+        println("valA = "+valA);
+        println("valB = "+valB);
+        println("valE = "+valE);
+        println("rA = "+rA);
+        println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
 
     public long[] execute(long[] input) {
+        println("execute in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -264,11 +286,22 @@ public class Processor {
                 valB = rsp; 
                 break;
         }
+
+        println("icode = "+icode);
+        println("ifun = "+ifun);
+        println("valC = "+valC);
+        println("valP = "+valP);
+        println("valA = "+valA);
+        println("valB = "+valB);
+        println("valE = "+valE);
+        println("rA = "+rA);
+        println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
-    public long[] memory(long[] input) {
+    public int memory() {
         // Update memory
+        println("memory in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -314,12 +347,29 @@ public class Processor {
                 valM = this.readEight();
                 break;
         }
-        long[] values = {ifun, valC, valP, valA, valB, valE, valM, rA, rB};
+
+        println("icode = "+icode);
+        println("ifun = "+ifun);
+        println("valC = "+valC);
+        println("valP = "+valP);
+        println("valA = "+valA);
+        println("valB = "+valB);
+        println("valE = "+valE);
+        println("rA = "+rA);
+        println("rB = "+rB);
+        println("valE = "+valM);
+        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB, valM};
         return values;
     }
     public void writeback(long[] input) {
         // Update registers
+        println("writeback in progress");
         long icode = input[0];
+        long ifun = input[1];
+        long valC = input[2];
+        long valP = input[3];
+        long valA = input[4];
+        long valB = input[5];
         long valE = input[6];
         long rA = input[7];
         long rB = input[8];
@@ -359,9 +409,24 @@ public class Processor {
             case 11: //popq
                 break;
         }
+        println("icode = "+icode);
+        println("ifun = "+ifun);
+        println("valC = "+valC);
+        println("valP = "+valP);
+        println("valA = "+valA);
+        println("valB = "+valB);
+        println("valE = "+valE);
+        println("rA = "+rA);
+        println("rB = "+rB);
+        println("valE = "+valM);
+        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
     }
     public void pcUpdate(int valP) {
+        println("pcUpdate in progress");
         PC = valP;
         index = PC*2;
+
+        println("PC = "+PC);
+        println("index = "+index);
     }
 }
