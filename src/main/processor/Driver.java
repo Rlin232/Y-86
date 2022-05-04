@@ -13,7 +13,8 @@ public class Driver {
 
         String file = readFile(pathIn);
 
-        Processor processor = new Processor();
+        Processor processor = new Processor(file, pathOut);
+        processor.process();
         System.out.println("Complete");
     }
 
