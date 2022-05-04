@@ -29,7 +29,7 @@ public class Processor {
             values = execute(values);
             values = memory(values);
             writeback(values);
-            pcUpdate((int) values[2]);
+            pcUpdate(values);
         }
     }
 
@@ -42,8 +42,8 @@ public class Processor {
 
     // Reads next 8 bytes
     public long readEight() {
-        String value = file.substring(index, index+8);
-        index += 8;
+        String value = file.substring(index, index+16);
+        index += 16;
         return Long.parseLong(value);
     }
 
@@ -356,7 +356,7 @@ public class Processor {
         System.out.println("rA = "+rA);
         System.out.println("rB = "+rB);
         System.out.println("valM = "+valM);
-        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB, valM};
+        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB, valM};
         return values;
     }
     public void writeback(long[] input) {
@@ -418,9 +418,50 @@ public class Processor {
         System.out.println("rB = "+rB);
         System.out.println("valM = "+valM);
     }
-    public void pcUpdate(int valP) {
+    public void pcUpdate(long[] input) {
         System.out.println("pcUpdate in progress");
-        PC = valP;
+        long icode = input[0];
+        long valC = input[2];
+        long valP = input[3];
+        long valM = input[8];
+
+        switch ((int) icode) {
+            case 0: //halt
+                break;
+            case 1: //nop
+                PC ++;
+                break;
+            case 2: //rrmovq
+                PC = (int) valP;
+                break;
+            case 3: //irmovq
+                PC = (int) valP;
+                //nothing?
+                break;
+            case 4: //rmmovq
+                PC = (int) valP;
+                break;
+            case 5: //mrmovq
+                PC = (int) valP;
+                break;
+            case 6: //OPq 
+                PC = (int) valP;
+                break;
+            case 7: //jXX
+                break;
+            case 8: //call
+                PC = (int) valC;
+                break;
+            case 9: // ret
+                PC = (int) valM;
+                break;
+            case 10: //pushq
+                PC = (int) valP;
+                break;
+            case 11: //popq
+                PC = (int) valP;
+                break;
+        }
         index = PC*2;
         System.out.println("PC = "+PC);
         System.out.println("index = "+index);
