@@ -267,7 +267,7 @@ public class Processor {
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
-    public int memory() {
+    public long[] memory(long[] input) {
         // Update memory
         long icode = input[0];
         long ifun = input[1];
@@ -320,11 +320,6 @@ public class Processor {
     public void writeback(long[] input) {
         // Update registers
         long icode = input[0];
-        long ifun = input[1];
-        long valC = input[2];
-        long valP = input[3];
-        long valA = input[4];
-        long valB = input[5];
         long valE = input[6];
         long rA = input[7];
         long rB = input[8];
@@ -364,7 +359,6 @@ public class Processor {
             case 11: //popq
                 break;
         }
-        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
     }
     public void pcUpdate(int valP) {
         PC = valP;
