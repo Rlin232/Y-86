@@ -363,6 +363,11 @@ public class Processor {
         // Update registers
         System.out.println("writeback in progress");
         long icode = input[0];
+        long ifun = input[1];
+        long valC = input[2];
+        long valP = input[3];
+        long valA = input[4];
+        long valB = input[5];
         long valE = input[6];
         long rA = input[7];
         long rB = input[8];
