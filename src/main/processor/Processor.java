@@ -117,7 +117,7 @@ public class Processor {
         long rA = input[6];
         long rB = input[7];
 
-        switch (ifun) {
+        switch ((int) ifun) {
             case 0: //halt
                 break;
             case 1: //nop
