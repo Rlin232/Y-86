@@ -8,7 +8,7 @@ public class Processor {
 
     int PC = 0; // Keeps track of which byte we're on
     int index = 0; // Keeps track of which 4-bit word we're on
-    int rsp = 0;
+    int rsp = 128;
 
     boolean ZF = false;
     boolean SF = false;
@@ -30,12 +30,17 @@ public class Processor {
             values = memory(values);
             writeback(values);
             pcUpdate(values);
+            System.out.println("One command done");
         }
     }
     
-    public int reverse(int n) {
-        ((n << 24) | (((n>>16)<<24)>>16) | \ (((n<<16)>>24)<<16) | (n>>24));
-        return n;
+    public static String byteReverse(String n) {
+        String out = "";
+        for(int i = 0; i < n.length(); i+=2) {
+            String token = n.substring(i, i+2);
+            out = token + out;
+        }
+        return out;
     }
 
     // Reads next 4-bit word
@@ -49,7 +54,7 @@ public class Processor {
     public long readEight() {
         String value = file.substring(index, index+16);
         index += 16;
-        return Long.parseLong(value);
+        return Long.parseLong(byteReverse(value));
     }
 
     // Writes to memory
