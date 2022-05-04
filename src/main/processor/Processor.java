@@ -8,7 +8,7 @@ public class Processor {
 
     int PC = 0; // Keeps track of which byte we're on
     int index = 0; // Keeps track of which 4-bit word we're on
-    int rsp = 0;
+    int rsp = 128; //not sure if this is the right stack pointer
 
     boolean ZF = false;
     boolean SF = false;
@@ -54,7 +54,6 @@ public class Processor {
     }
     
     public long[] fetch() {
-        println("fetch in progress");
         int icode = this.readWord();
         int ifun = -1;
         long valC = -1;
@@ -125,21 +124,11 @@ public class Processor {
                 break;
         }
     
-        println("icode = "+icode);
-        println("ifun = "+ifun);
-        println("valC = "+valC);
-        println("valP = "+valP);
-        println("valA = "+valA);
-        println("valB = "+valB);
-        println("valE = "+valE);
-        println("rA = "+rA);
-        println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
     public long[] decode(long[] input) {
         // reads up to two operands from the register file 
-        println("decode in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -190,22 +179,11 @@ public class Processor {
                 valB = rsp; 
                 break;
         }
-
-        println("icode = "+icode);
-        println("ifun = "+ifun);
-        println("valC = "+valC);
-        println("valP = "+valP);
-        println("valA = "+valA);
-        println("valB = "+valB);
-        println("valE = "+valE);
-        println("rA = "+rA);
-        println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
 
-    public long[] execute(long[] input) {
-        println("execute in progress");
+    public int[] execute() {
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -220,23 +198,22 @@ public class Processor {
         OF = false;
         SF = false;
 
-        switch ((int) icode) {
+        switch(icode) {
             case 0: //halt
                 break;
             case 1: //nop
                 break;
             case 2: //rrmovq
-                valA = rA;
+                valE = valB + valC;
                 break;
             case 3: //irmovq
-                //nothing?
+                valE = 0 + valC;
                 break;
             case 4: //rmmovq
-                valA = rA; 
-                valB = rB;
+                valE = valB + valC;
                 break;
             case 5: //mrmovq
-                valB = rB;
+                valE = valB + valC;
                 break;
             case 6: //OPq // valA <- R[rA]
                 long oldVal = valE;
@@ -268,40 +245,29 @@ public class Processor {
                     OF = true;
                 }
                 break;
-            case 7: //jXX
+            case 7: //jxx
                 break;
             case 8: //call
-                valB = rsp;
+                valE = valB - 8;
                 break;
-            case 9: // ret
-                valA = rsp;
-                valB = rsp;
+            case 9: //return
+                valE = valB + 8;
                 break;
             case 10: //pushq
-                valA = rA;
-                valB = rsp; 
+                valE = valB - 8;
                 break;
             case 11: //popq
-                valA = rsp;
-                valB = rsp; 
+                valE = valB + 8;
                 break;
+
         }
 
-        println("icode = "+icode);
-        println("ifun = "+ifun);
-        println("valC = "+valC);
-        println("valP = "+valP);
-        println("valA = "+valA);
-        println("valB = "+valB);
-        println("valE = "+valE);
-        println("rA = "+rA);
-        println("rB = "+rB);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
-    public int memory() {
+
+    public long[] memory(long[] input) {
         // Update memory
-        println("memory in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -347,29 +313,12 @@ public class Processor {
                 valM = this.readEight();
                 break;
         }
-
-        println("icode = "+icode);
-        println("ifun = "+ifun);
-        println("valC = "+valC);
-        println("valP = "+valP);
-        println("valA = "+valA);
-        println("valB = "+valB);
-        println("valE = "+valE);
-        println("rA = "+rA);
-        println("rB = "+rB);
-        println("valE = "+valM);
-        long[] values = {ifun, valC, valP, valA, valB, valE, rA, rB, valM};
+        long[] values = {ifun, valC, valP, valA, valB, valE, valM, rA, rB};
         return values;
     }
     public void writeback(long[] input) {
         // Update registers
-        println("writeback in progress");
         long icode = input[0];
-        long ifun = input[1];
-        long valC = input[2];
-        long valP = input[3];
-        long valA = input[4];
-        long valB = input[5];
         long valE = input[6];
         long rA = input[7];
         long rB = input[8];
@@ -409,24 +358,9 @@ public class Processor {
             case 11: //popq
                 break;
         }
-        println("icode = "+icode);
-        println("ifun = "+ifun);
-        println("valC = "+valC);
-        println("valP = "+valP);
-        println("valA = "+valA);
-        println("valB = "+valB);
-        println("valE = "+valE);
-        println("rA = "+rA);
-        println("rB = "+rB);
-        println("valE = "+valM);
-        long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
     }
     public void pcUpdate(int valP) {
-        println("pcUpdate in progress");
         PC = valP;
         index = PC*2;
-
-        println("PC = "+PC);
-        println("index = "+index);
     }
 }
