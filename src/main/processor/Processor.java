@@ -80,6 +80,7 @@ public class Processor {
         
         switch (icode) {
             case 0: //halt
+                System.out.println("Done");
                 break;
             case 1: //nop
                 break;
@@ -277,7 +278,6 @@ public class Processor {
                     if(valE < 0)
                         SF = true;
                 }
-                
                 break;
             case 7: //jxx
                 break;
