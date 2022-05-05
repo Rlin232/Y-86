@@ -10,6 +10,8 @@ public class Processor {
     int index = 0; // Keeps track of which 4-bit word we're on
     int rsp = 128;
 
+    boolean cnd = 0;
+
     boolean ZF = false;
     boolean SF = false;
     boolean OF = false;
@@ -280,6 +282,7 @@ public class Processor {
                 }
                 break;
             case 7: //jxx
+                cnd = cond(ifun);
                 break;
             case 8: //call
                 valE = valB - 8;
@@ -475,6 +478,25 @@ public class Processor {
         index = PC*2;
         System.out.println("PC = "+PC);
         System.out.println("index = "+index);
+    }
+
+    public boolean cond(int op){
+        switch((int) op) {
+            case 0:
+                return 1;
+            case 1: //le
+                return SF != OF || ZF;
+            case 2: //l
+                return SF != OF;
+            case 3: //e
+                return ZF;
+            case 4: //ne
+                return !ZF;
+            case 5: //ge
+                return !SF ^ OF;
+            case 6: //g
+                return !SF != OF && ~ZF;
+        }
     }
         
 }
