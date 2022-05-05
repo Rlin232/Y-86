@@ -36,7 +36,6 @@ public class Processor {
             values = memory(values);
             writeback(values);
             pcUpdate(values);
-            System.out.println("Command " + instruction + " finished.");
             num++;
         }
     }
@@ -371,18 +370,26 @@ public class Processor {
             case 1: //nop
                 break;
             case 2: //rrmovq
-                R[(int) rB] = (int) valE;
+                if(valE != -1) {
+                    R[(int) rB] = (int) valE;
+                }
                 break;
             case 3: //irmovq
-                R[(int) rB] = (int) valE;
+                if(valE != -1) {
+                    R[(int) rB] = (int) valE;
+                }
                 break;
             case 4: //rmmovq
                 break;
             case 5: //mrmovq
-                R[(int) rA] = (int) valM;
+                if(valM != -1) {
+                    R[(int) rA] = (int) valM;
+                }
                 break;
             case 6: //OPq
-                R[(int) rB] = (int) valE;
+                if(valE != -1) {
+                    R[(int) rB] = (int) valE;
+                }
                 break;
             case 7: //jXX
                 break;
@@ -394,7 +401,9 @@ public class Processor {
                 break;
             case 10: //pushq
                 R[4] = (int) valE;
-                R[(int) rA] = (int) valM;
+                if(valM != -1) {
+                    R[(int) rA] = (int) valM;
+                }
                 break;
             case 11: //popq
                 break;
