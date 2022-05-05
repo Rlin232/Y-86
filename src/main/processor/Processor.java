@@ -1,5 +1,7 @@
 package src.main.processor;
 
+import src.main.Utilities;
+
 public class Processor {
     String file;
     String pathOut;
@@ -24,7 +26,9 @@ public class Processor {
 
     public void process() {
         // Read through string until end, running through each step
+        int num = 1;
         while(index < file.length()) {
+            Utilities.printHeader(num);
             long[] values = fetch();
             int instruction = (int) values[0];
             values = decode(values);
@@ -33,6 +37,7 @@ public class Processor {
             writeback(values);
             pcUpdate(values);
             System.out.println("Command " + instruction + " finished.");
+            num++;
         }
     }
     
@@ -145,15 +150,7 @@ public class Processor {
                 valP = PC + 2;
                 break;
         }
-        System.out.println("icode = "+icode);
-        System.out.println("ifun = "+ifun);
-        System.out.println("valC = "+valC);
-        System.out.println("valP = "+valP);
-        System.out.println("valA = "+valA);
-        System.out.println("valB = "+valB);
-        System.out.println("valE = "+valE);
-        System.out.println("rA = "+rA);
-        System.out.println("rB = "+rB);
+        Utilities.printFetch(ifun, icode, rA, rB, valP, valC);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
@@ -211,15 +208,7 @@ public class Processor {
                 valB = R[4]; 
                 break;
         }
-        System.out.println("icode = "+icode);
-        System.out.println("ifun = "+ifun);
-        System.out.println("valC = "+valC);
-        System.out.println("valP = "+valP);
-        System.out.println("valA = "+valA);
-        System.out.println("valB = "+valB);
-        System.out.println("valE = "+valE);
-        System.out.println("rA = "+rA);
-        System.out.println("rB = "+rB);
+        Utilities.printDecode(valA, valB, valE);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
@@ -260,13 +249,17 @@ public class Processor {
                         valE = valB + valA;
                         // Check for overflow
                         if(valB > 0 && valA > 0 && valE < 0) OF = true;
+                        else OF = false;
                         if(valB < 0 && valA < 0 && valE > 0) OF = true;
+                        else OF = false;
                         break;
                     case 1:
                         valE = valB - valA;
                         // Check for overflow
                         if(valB > 0 && valA < 0 && valE < 0) OF = true;
+                        else OF = false;
                         if(valB < 0 && valA > 0 && valE > 0) OF = true;
+                        else OF = false;
                         break;
                     case 2:
                         valE = valB & valA;
@@ -277,12 +270,18 @@ public class Processor {
                 }
                 if(valE == 0)
                     ZF = true;
+                else 
+                    ZF = false;
                 if(oldVal < 0) {
                     if(valE > 0)
                         SF = true;
+                    else
+                        SF = false;
                 } else {
                     if(valE < 0)
                         SF = true;
+                    else
+                        SF = false;
                 }
                 break;
             case 7: //jxx
@@ -301,16 +300,7 @@ public class Processor {
                 valE = valB + 8;
                 break;
         }
-        
-        System.out.println("icode = "+icode);
-        System.out.println("ifun = "+ifun);
-        System.out.println("valC = "+valC);
-        System.out.println("valP = "+valP);
-        System.out.println("valA = "+valA);
-        System.out.println("valB = "+valB);
-        System.out.println("valE = "+valE);
-        System.out.println("rA = "+rA);
-        System.out.println("rB = "+rB);
+        Utilities.printExecute(valE, ZF, OF, SF);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB};
         return values;
     }
@@ -363,16 +353,7 @@ public class Processor {
                 valM = this.readEight();
                 break;
         }
-        System.out.println("icode = "+icode);
-        System.out.println("ifun = "+ifun);
-        System.out.println("valC = "+valC);
-        System.out.println("valP = "+valP);
-        System.out.println("valA = "+valA);
-        System.out.println("valB = "+valB);
-        System.out.println("valE = "+valE);
-        System.out.println("rA = "+rA);
-        System.out.println("rB = "+rB);
-        System.out.println("valM = "+valM);
+        Utilities.printMemory(valM);
         long[] values = {icode, ifun, valC, valP, valA, valB, valE, rA, rB, valM};
         return values;
     }
@@ -424,16 +405,7 @@ public class Processor {
             case 11: //popq
                 break;
         }
-        System.out.println("icode = "+icode);
-        System.out.println("ifun = "+ifun);
-        System.out.println("valC = "+valC);
-        System.out.println("valP = "+valP);
-        System.out.println("valA = "+valA);
-        System.out.println("valB = "+valB);
-        System.out.println("valE = "+valE);
-        System.out.println("rA = "+rA);
-        System.out.println("rB = "+rB);
-        System.out.println("valM = "+valM);
+        Utilities.printWriteback(R);
     }
     public void pcUpdate(long[] input) {
         System.out.println("pcUpdate in progress");
@@ -481,8 +453,7 @@ public class Processor {
                 break;
         }
         index = PC*2;
-        System.out.println("PC = "+PC);
-        System.out.println("index = "+index);
+        Utilities.printPC(PC);
     }
 
     public boolean cond(int op){

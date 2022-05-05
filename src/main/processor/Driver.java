@@ -12,6 +12,8 @@ public class Driver {
         String pathOut = new File("output-processor/out.txt").getAbsolutePath(); // Output file
 
         String file = readFile(pathIn);
+        
+        System.out.println("Note: All values are written in decimal");
 
         Processor processor = new Processor(file, pathOut);
         processor.process();
