@@ -14,7 +14,7 @@ public class Utilities {
         System.out.println("+---------------------------------+");
     }
     public static void printFetch(long ifun, long icode, long rA, long rB, long valP, long valC) {
-        System.out.println("(+---------------------+");
+        System.out.println("+---------------------+");
         System.out.println("|Fetch                |");
         System.out.println("+---------------------+");
         System.out.println("| ifun: " + ifun);
