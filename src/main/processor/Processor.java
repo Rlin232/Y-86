@@ -78,7 +78,6 @@ public class Processor {
     }
     
     public long[] fetch() {
-        System.out.println("fetch in progress");
         int icode = this.readWord();
         int ifun = -1;
         long valC = -1;
@@ -155,9 +154,7 @@ public class Processor {
         return values;
     }
     public long[] decode(long[] input) {
-        // reads up to two operands from the register file 
-        System.out.println("decode in progress");
-        
+        // reads up to two operands from the register file         
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -214,7 +211,6 @@ public class Processor {
     }
 
     public long[] execute(long[] input) {
-        System.out.println("execute in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -306,7 +302,6 @@ public class Processor {
     }
 
     public long[] memory(long[] input) {
-        System.out.println("memory in progress");
         // Update memory
         long icode = input[0];
         long ifun = input[1];
@@ -359,7 +354,6 @@ public class Processor {
     }
     public void writeback(long[] input) {
         // Update registers
-        System.out.println("writeback in progress");
         long icode = input[0];
         long ifun = input[1];
         long valC = input[2];
@@ -408,7 +402,6 @@ public class Processor {
         Utilities.printWriteback(R);
     }
     public void pcUpdate(long[] input) {
-        System.out.println("pcUpdate in progress");
         long icode = input[0];
         long valC = input[2];
         long valP = input[3];
