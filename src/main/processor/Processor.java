@@ -8,9 +8,8 @@ public class Processor {
 
     int PC = 0; // Keeps track of which byte we're on
     int index = 0; // Keeps track of which 4-bit word we're on
-    int rsp = 128;
 
-    boolean cnd = 0;
+    boolean cnd = false;
 
     boolean ZF = false;
     boolean SF = false;
@@ -27,12 +26,13 @@ public class Processor {
         // Read through string until end, running through each step
         while(index < file.length()) {
             long[] values = fetch();
+            int instruction = (int) values[0];
             values = decode(values);
             values = execute(values);
             values = memory(values);
             writeback(values);
             pcUpdate(values);
-            System.out.println("One command done");
+            System.out.println("Command " + instruction + " finished.");
         }
     }
     
@@ -56,13 +56,20 @@ public class Processor {
     public long readEight() {
         String value = file.substring(index, index+16);
         index += 16;
-        return Long.parseLong(byteReverse(value));
+        return Long.decode("0x" + byteReverse(value));
+    }
+    
+    public long readEight(int otherIndex) {
+        String value = file.substring(otherIndex, otherIndex+16);
+        return Long.decode("0x" + byteReverse(value));
     }
 
     // Writes to memory
     public void write(long i, long val) {
-        int in = (int)i;
-        memory[in] = val;
+        memory[(int) i] = val;
+    }
+    public long readEightStack(int i) {
+        return memory[(int) i];
     }
     
     public long[] fetch() {
@@ -83,6 +90,7 @@ public class Processor {
         switch (icode) {
             case 0: //halt
                 System.out.println("Done");
+                System.exit(0);
                 break;
             case 1: //nop
                 break;
@@ -188,19 +196,19 @@ public class Processor {
             case 7: //jXX
                 break;
             case 8: //call
-                valB = rsp;
+                valB = R[4];
                 break;
             case 9: // ret
-                valA = rsp;
-                valB = rsp;
+                valA = R[4];
+                valB = R[4];
                 break;
             case 10: //pushq
                 valA = rA;
-                valB = rsp; 
+                valB = R[4]; 
                 break;
             case 11: //popq
-                valA = rsp;
-                valB = rsp; 
+                valA = R[4];
+                valB = R[4]; 
                 break;
         }
         System.out.println("icode = "+icode);
@@ -227,10 +235,6 @@ public class Processor {
         long valE = input[6];
         long rA = input[7];
         long rB = input[8];
-
-        ZF = false;
-        OF = false;
-        SF = false;
 
         switch((int) icode) {
             case 0: //halt
@@ -282,7 +286,7 @@ public class Processor {
                 }
                 break;
             case 7: //jxx
-                cnd = cond(ifun);
+                cnd = cond((int) ifun);
                 break;
             case 8: //call
                 valE = valB - 8;
@@ -350,7 +354,7 @@ public class Processor {
                 this.write(valE, valP);
                 break;
             case 9: // ret
-                valM = this.readEight();
+                valM = this.readEightStack((int) valA);
                 break;
             case 10: //pushq
                 this.write(valE, valA);
@@ -436,7 +440,7 @@ public class Processor {
         long icode = input[0];
         long valC = input[2];
         long valP = input[3];
-        long valM = input[8];
+        long valM = input[9];
 
         switch ((int) icode) {
             case 0: //halt
@@ -461,6 +465,7 @@ public class Processor {
                 PC = (int) valP;
                 break;
             case 7: //jXX
+                PC = cnd ? (int) valC : (int) valP;
                 break;
             case 8: //call
                 PC = (int) valC;
@@ -483,19 +488,21 @@ public class Processor {
     public boolean cond(int op){
         switch((int) op) {
             case 0:
-                return 1;
+                return true;
             case 1: //le
-                return SF != OF || ZF;
+                return (SF && !OF) || ZF;
             case 2: //l
-                return SF != OF;
+                return (SF && !OF);
             case 3: //e
                 return ZF;
             case 4: //ne
                 return !ZF;
             case 5: //ge
-                return !SF ^ OF;
+                return (!SF || OF) || ZF;
             case 6: //g
-                return !SF != OF && ~ZF;
+                return (!SF || OF);
+            default:
+                return false;
         }
     }
         

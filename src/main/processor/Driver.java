@@ -15,7 +15,6 @@ public class Driver {
 
         Processor processor = new Processor(file, pathOut);
         processor.process();
-        System.out.println("Complete");
     }
 
     static String readFile(String pathIn) throws IOException {
