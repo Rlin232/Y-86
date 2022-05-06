@@ -170,21 +170,21 @@ public class Processor {
             case 1: //nop
                 break;
             case 2: //rrmovq
-                valA = rA;
+                valA = R[(int) rA];
                 break;
             case 3: //irmovq
                 //nothing?
                 break;
             case 4: //rmmovq
-                valA = rA; 
-                valB = rB;
+                valA = R[(int) rA]; 
+                valB = R[(int) rB]; 
                 break;
             case 5: //mrmovq
-                valB = rB;
+                valB = R[(int) rB];
                 break;
             case 6: //OPq // valA <- R[rA]
-                valA = rA; 
-                valB = rB; 
+                valA = R[(int) rA]; 
+                valB = R[(int) rB]; 
                 break;
             case 7: //jXX
                 break;
@@ -196,7 +196,7 @@ public class Processor {
                 valB = R[4];
                 break;
             case 10: //pushq
-                valA = rA;
+                valA = R[(int) rA];
                 valB = R[4]; 
                 break;
             case 11: //popq
