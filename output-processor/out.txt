@@ -101,13 +101,13 @@ Loop 3:
 +---------------------+
 |Decode               |
 +---------------------+
-| valA: 2
-| valB: 3
+| valA: 9
+| valB: 21
 | valE: -1
 +---------------------+
 |Execute              |
 +---------------------+
-| valE: 1
+| valE: 12
 | ZF: false
 | OF: false
 | SF: true
@@ -121,7 +121,7 @@ Loop 3:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 0
 | %rbp: 0
 | %rsi: 0
@@ -165,7 +165,7 @@ Loop 4:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 128
 | %rbp: 0
 | %rsi: 0
@@ -189,13 +189,13 @@ Loop 5:
 +---------------------+
 |Decode               |
 +---------------------+
-| valA: 4
-| valB: 3
+| valA: 128
+| valB: 12
 | valE: -1
 +---------------------+
 |Execute              |
 +---------------------+
-| valE: 103
+| valE: 112
 | ZF: false
 | OF: false
 | SF: true
@@ -209,7 +209,7 @@ Loop 5:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 128
 | %rbp: 0
 | %rsi: 0
@@ -233,7 +233,7 @@ Loop 6:
 +---------------------+
 |Decode               |
 +---------------------+
-| valA: 2
+| valA: 9
 | valB: 128
 | valE: -1
 +---------------------+
@@ -253,7 +253,7 @@ Loop 6:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 120
 | %rbp: 0
 | %rsi: 0
@@ -297,7 +297,7 @@ Loop 7:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 120
 | %rbp: 0
 | %rsi: 0
@@ -341,7 +341,7 @@ Loop 8:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 120
 | %rbp: 0
 | %rsi: 0
@@ -385,7 +385,7 @@ Loop 9:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 112
 | %rbp: 0
 | %rsi: 0
@@ -429,7 +429,7 @@ Loop 10:
 | %rax: 0
 | %rcx: 0
 | %rdx: 9
-| %rbx: 1
+| %rbx: 12
 | %rsp: 120
 | %rbp: 0
 | %rsi: 0
